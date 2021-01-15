@@ -4,6 +4,8 @@ The Zero Waste Algorithm (ZWA) is a pipeline comprised of various bioinformatic 
 
 
 !!!LIMITATIONS!!!
-1)This is an unoptimized prrof of concept pipeline. It is quite slow
+1)This is an unoptimized proof of concept pipeline. It is quite slow
+
 2)The algorithm is unable to "clean" the hybrid ribosomal part if its in the middle of the read
+
 3)If your raw reads contain the letter 'S' in the contig name you should replace it before running the pipeline (eg. use sed) 
