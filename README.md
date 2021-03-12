@@ -7,19 +7,19 @@ The Zero Waste Algorithm (ZWA) is a pipeline comprised of various bioinformatic 
 
 _DEPENDECIES:_
 
-- BIOAWK (https://github.com/lh3/bioawk)
+- [BIOAWK](https://github.com/lh3/bioawk)
 
-- BLAST  (https://www.ncbi.nlm.nih.gov/books/NBK279690/)
+- [BLAST+](https://www.ncbi.nlm.nih.gov/books/NBK279690/)
 
-- BBMAP reformat.sh  (https://jgi.doe.gov/data-and-tools/bbtools/bb-tools-user-guide/bbmap-guide/)
+- [BBMAP reformat.sh](https://jgi.doe.gov/data-and-tools/bbtools/bb-tools-user-guide/bbmap-guide/)
 
-- faSOMERECORDS (https://github.com/santiagosnchez/faSomeRecords)
+- [faSOMERECORDS](https://github.com/santiagosnchez/faSomeRecords)
 
-- bwa (http://bio-bwa.sourceforge.net/)
+- [bwa](http://bio-bwa.sourceforge.net/)
 
-- samtools (http://www.htslib.org/)
+- [samtools](http://www.htslib.org/)
 
-- Trinity (https://github.com/trinityrnaseq/trinityrnaseq/wiki)
+- [Trinity](https://github.com/trinityrnaseq/trinityrnaseq/wiki)
 
 
 
