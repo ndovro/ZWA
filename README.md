@@ -26,7 +26,12 @@ _DEPENDECIES:_
 Make sure you edit the script to specify paths and system related variables
 
 
-###
+###Typical run
+'''
+./zwa2.sh RAW_READS.fastq reference.fasta '''
+
+
+
 
 _!!!LIMITATIONS!!!_
 
