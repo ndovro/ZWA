@@ -3,6 +3,8 @@
 The Zero Waste Algorithm (ZWA) is a pipeline comprised of various bioinformatic tools for context-based read trimming. The goal of this pipeline is to assist in viral genome assembly by retaining the viral part of reads and discarding any ribosomal hybrid bases the reads might contain.
 
 
+
+
 _DEPENDECIES:_
 
 - BIOAWK (https://github.com/lh3/bioawk)
@@ -25,7 +27,7 @@ _DEPENDECIES:_
 
 
 
-!!!LIMITATIONS!!!
+_!!!LIMITATIONS!!!_
 
 1)This is an unoptimized proof of concept pipeline. It is quite slow
 
