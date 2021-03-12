@@ -1,9 +1,20 @@
 #!/bin/bash
-# ./zwa2.sh RAW_READS.fastq reference.fasta/fa
+
+
+#Laboratory of Biology, School of Medicine, Democritus University of Thrace
+#Typical run: # ./zwa2.sh RAW_READS.fastq reference.fasta
 
 
 raw_reads=$1
 ribos=$2
+
+#Edit PATHS so that the script can find the appropriate programs
+PATH_TO_BBMAP='/../'
+PATH_TO_fasomerecords='/../'
+
+#Change number of processes and cores as needed / can be supported by your server
+N=5000
+CPUS=16
 
 
 raw_cut=`basename ${raw_reads}`
@@ -12,7 +23,8 @@ raw_ribos=`basename ${ribos}`
 if [ $# -gt 0 ]; then
     echo "Your command line contains $# arguments"
 else
-    echo "You need to provide arguments for RAWREADS"
+    echo "You need to provide raw reads and a ribosomal reference"
+    exit 1
 fi
 
 # create appropriate directory
@@ -31,26 +43,26 @@ dir1=${raw_cut%.fastq}_$(date +%F)
 
 #ALIGN ON RIBOSOMAL
 bwa index ${raw_ribos}
-bwa mem -t 16 ${raw_ribos} ${raw_cut} > aligned.sam
+bwa mem -t ${CPUS} ${raw_ribos} ${raw_cut} > aligned.sam
 samtools view -b -F 4 aligned.sam >ribo.bam
 samtools view -b -f 4 aligned.sam>other.bam
 
 #DETECT HYBRIDS USING SOFTCLIPPING (MAKE SURE YOUR READ NAMES DONT CONTAIN THE LETTER 'S')
-# samtools view ribo.bam |cut -f 1,6 |grep -v S | cut -f 1 > clean.txt
+
 samtools view ribo.bam |cut -f 1,6 |grep S | cut -f 1 > dirty.txt
 
 samtools bam2fq ribo.bam > ribo.fastq
 samtools bam2fq other.bam > other.fastq
-$BB/reformat.sh in=ribo.fastq out=ribo.fasta
+${PATH_TO_BBMAP}/reformat.sh in=ribo.fastq out=ribo.fasta
 
 #THIS KEEPS ONLY THE READS WITH SOFTCLIPPING
-~/RNASEQ/fasomerecords/faSomeRecords ribo.fasta dirty.txt  aligned.fasta
+${PATH_TO_fasomerecords}/faSomeRecords ribo.fasta dirty.txt  aligned.fasta
 
 
 
 
 # change fastq to fasta using bbmap's reformat
-$BB/reformat.sh in=other.fastq out=other.fasta
+${PATH_TO_BBMAP}/reformat.sh in=other.fastq out=other.fasta
 
 
 # create a clean fasta with 1 line per sequence
@@ -65,8 +77,7 @@ mkdir clean
 
 #start the cleaning algorithm
 
-#Change number of processes as needed
-N=5000
+
 
 echo "STARTING CLEANING"
 bioawk  -t '{print $1,$7,$8}' combined_results.txt | while IFS=$'\t' read dirty_seq hybrid_start hybrid_end
@@ -126,8 +137,11 @@ cd clean
 cat ../other.fasta clean_seqs.fasta > for_trinity.fasta
 
 #create theTrinity assembly on clean_hybrids AND bwa's other
-$TRINITY_HOME/Trinity --seqType fa --single ./for_trinity.fasta --max_memory 50G --CPU 12 --full_cleanup --output trinity_combination1
-$TRINITY_HOME/Trinity --seqType fa --single ./for_trinity.fasta --max_memory 50G --CPU 12 --full_cleanup --output trinity_combination2
-$TRINITY_HOME/Trinity --seqType fa --single ./for_trinity.fasta --max_memory 50G --CPU 12 --full_cleanup --output trinity_combination3
-$TRINITY_HOME/Trinity --seqType fa --single ./for_trinity.fasta --max_memory 50G --CPU 12 --full_cleanup --output trinity_combination4
-$TRINITY_HOME/Trinity --seqType fa --single ./for_trinity.fasta --max_memory 50G --CPU 12 --full_cleanup --output trinity_combination5
+#change memory and CPUs to fit your needs
+#this section can be modified to use other assemblers
+#Since the assembly process is stochastic multiple assemblies are created to be utilized for validation
+$TRINITY_HOME/Trinity --seqType fa --single ./for_trinity.fasta --max_memory 50G --CPU ${CPUS} --full_cleanup --output trinity_combination1
+$TRINITY_HOME/Trinity --seqType fa --single ./for_trinity.fasta --max_memory 50G --CPU ${CPUS} --full_cleanup --output trinity_combination2
+$TRINITY_HOME/Trinity --seqType fa --single ./for_trinity.fasta --max_memory 50G --CPU ${CPUS} --full_cleanup --output trinity_combination3
+$TRINITY_HOME/Trinity --seqType fa --single ./for_trinity.fasta --max_memory 50G --CPU ${CPUS} --full_cleanup --output trinity_combination4
+$TRINITY_HOME/Trinity --seqType fa --single ./for_trinity.fasta --max_memory 50G --CPU ${CPUS} --full_cleanup --output trinity_combination5
