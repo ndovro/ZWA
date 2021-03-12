@@ -4,7 +4,6 @@ The Zero Waste Algorithm (ZWA) is a pipeline comprised of various bioinformatic 
 
 
 
-
 _DEPENDECIES:_
 
 - [BIOAWK](https://github.com/lh3/bioawk)
@@ -23,7 +22,8 @@ _DEPENDECIES:_
 
 
 
-##
+## Before running
+Make sure you edit the script to specify paths and system related variables
 
 
 
