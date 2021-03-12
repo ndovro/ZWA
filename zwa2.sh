@@ -9,8 +9,9 @@ raw_reads=$1
 ribos=$2
 
 #Edit PATHS so that the script can find the appropriate programs
-PATH_TO_BBMAP='/../'
-PATH_TO_fasomerecords='/../'
+PATH_TO_BBMAP='/../reformat.sh'
+PATH_TO_fasomerecords='/../faSomeRecords.py'
+PATH_TO_TRINITY='/../Trinity'
 
 #Change number of processes and cores as needed / can be supported by your server
 N=5000
@@ -53,16 +54,16 @@ samtools view ribo.bam |cut -f 1,6 |grep S | cut -f 1 > dirty.txt
 
 samtools bam2fq ribo.bam > ribo.fastq
 samtools bam2fq other.bam > other.fastq
-${PATH_TO_BBMAP}/reformat.sh in=ribo.fastq out=ribo.fasta
+${PATH_TO_BBMAP} in=ribo.fastq out=ribo.fasta
 
 #THIS KEEPS ONLY THE READS WITH SOFTCLIPPING
-${PATH_TO_fasomerecords}/faSomeRecords ribo.fasta dirty.txt  aligned.fasta
+${PATH_TO_fasomerecords} ribo.fasta dirty.txt  aligned.fasta
 
 
 
 
 # change fastq to fasta using bbmap's reformat
-${PATH_TO_BBMAP}/reformat.sh in=other.fastq out=other.fasta
+${PATH_TO_BBMAP} in=other.fastq out=other.fasta
 
 
 # create a clean fasta with 1 line per sequence
@@ -140,8 +141,8 @@ cat ../other.fasta clean_seqs.fasta > for_trinity.fasta
 #change memory and CPUs to fit your needs
 #this section can be modified to use other assemblers
 #Since the assembly process is stochastic multiple assemblies are created to be utilized for validation
-$TRINITY_HOME/Trinity --seqType fa --single ./for_trinity.fasta --max_memory 50G --CPU ${CPUS} --full_cleanup --output trinity_combination1
-$TRINITY_HOME/Trinity --seqType fa --single ./for_trinity.fasta --max_memory 50G --CPU ${CPUS} --full_cleanup --output trinity_combination2
-$TRINITY_HOME/Trinity --seqType fa --single ./for_trinity.fasta --max_memory 50G --CPU ${CPUS} --full_cleanup --output trinity_combination3
-$TRINITY_HOME/Trinity --seqType fa --single ./for_trinity.fasta --max_memory 50G --CPU ${CPUS} --full_cleanup --output trinity_combination4
-$TRINITY_HOME/Trinity --seqType fa --single ./for_trinity.fasta --max_memory 50G --CPU ${CPUS} --full_cleanup --output trinity_combination5
+${PATH_TO_TRINITY} --seqType fa --single ./for_trinity.fasta --max_memory 50G --CPU ${CPUS} --full_cleanup --output trinity_combination1
+${PATH_TO_TRINITY} --seqType fa --single ./for_trinity.fasta --max_memory 50G --CPU ${CPUS} --full_cleanup --output trinity_combination2
+${PATH_TO_TRINITY} --seqType fa --single ./for_trinity.fasta --max_memory 50G --CPU ${CPUS} --full_cleanup --output trinity_combination3
+${PATH_TO_TRINITY} --seqType fa --single ./for_trinity.fasta --max_memory 50G --CPU ${CPUS} --full_cleanup --output trinity_combination4
+${PATH_TO_TRINITY} --seqType fa --single ./for_trinity.fasta --max_memory 50G --CPU ${CPUS} --full_cleanup --output trinity_combination5
