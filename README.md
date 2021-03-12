@@ -33,7 +33,7 @@ Make sure you edit the script to specify paths and system related variables
 
 
 
-_!!!LIMITATIONS!!!_
+_!!!**LIMITATIONS**!!!_
 
 > 1)This is an unoptimized proof of concept pipeline. It is quite slow
 
