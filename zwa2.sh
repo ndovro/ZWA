@@ -2,7 +2,7 @@
 
 
 #Laboratory of Biology, School of Medicine, Democritus University of Thrace
-#Typical run: # ./zwa2.sh RAW_READS.fastq reference.fasta
+#Typical run: # ./zwa.sh RAW_READS.fastq reference.fasta
 
 
 raw_reads=$1
