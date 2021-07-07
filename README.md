@@ -37,8 +37,11 @@ _!!!**LIMITATIONS**!!!_
 
 > 1)This is an unoptimized proof of concept pipeline. It is quite slow
 
-> 2)The algorithm is unable to "clean" the hybrid ribosomal part if its in the middle of the read
+> 2)If your raw reads contain the letter 'S' in the contig name you should replace it before running the pipeline (eg. use sed)
 
-> 3)If your raw reads contain the letter 'S' in the contig name you should replace it before running the pipeline (eg. use sed)
+> 3)This script has been tested on single-end raw reads only. Nothing suggests that it will not work for paired-end reads after pairing them.
 
-> 4)This script has been tested on single-end raw reads only. Nothing suggests that it will not work for paired-end reads after pairing them.
+
+For ease of use and to maximize performance, a Docker image with all the required software preinstalled has been created at https://hub.docker.com/repository/docker/ndovroli/zwa/. It is ready to deploy on any system/cloud with Docker.
+
+
